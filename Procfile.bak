@@ -1,1 +1,1 @@
-web: java -jar target/dependency/webapp-runner-8.5.11.3.jar target/*.war
+web: java $JAVA_OPTS -jar build/server/webapp-runner-8.5.11.3.jar build/libs/*.war
