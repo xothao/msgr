@@ -42,18 +42,3 @@ task copyToLib(type: Copy) {
 }
 
 stage.dependsOn(copyToLib)
-
-
-task getDeps(type: Copy) {
-    from sourceSets.main.runtimeClasspath
-    into 'runtime/'
-
-    doFirst {
-        ant.delete(dir: 'runtime')
-        ant.mkdir(dir: 'runtime')
-    }
-
-    doLast {
-        ant.delete(dir: 'runtime')
-    }
-}
