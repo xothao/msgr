@@ -11,9 +11,9 @@ repositories {
 
 dependencies {
     runtime 'com.h2database:h2:2.1.212'
-    implementation 'com.google.zxing:core:3.4.0'
-    implementation 'com.google.zxing:javase:3.4.0'
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    runtime 'com.google.zxing:core:3.4.0'
+    runtime 'com.google.zxing:javase:3.4.0'
+    runtime 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'javax.servlet:javax.servlet-api:3.1.0'
     implementation 'com.github.jsimone:webapp-runner:9.0.27.1'
 }
