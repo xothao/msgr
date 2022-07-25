@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'war'
-	id 'jetty'
 }
 
 group 'com.thx.priv'
@@ -11,12 +10,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.h2database:h2:2.1.212'
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.zxing:javase:3.4.0'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'javax.servlet:javax.servlet-api:3.1.0'
     implementation 'com.github.jsimone:webapp-runner:8.5.11.3'
+	runtimeOnly 'org.postgresql:postgresql:9.4-1203-jdbc42'
 }
 
 task stage(dependsOn: ['build', 'clean'])
