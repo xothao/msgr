@@ -34,7 +34,7 @@ build.mustRunAfter clean
 
 task copyToLib(type: Copy) {
     into "$buildDir/server"
-    from(configurations.runtime) {
+    from(configurations.runtimeClasspath) {
         include "webapp-runner*"
     }
 }
