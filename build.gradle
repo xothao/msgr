@@ -15,7 +15,7 @@ dependencies {
     implementation 'com.google.zxing:javase:3.4.0'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'javax.servlet:javax.servlet-api:3.1.0'
-    implementation 'com.github.jsimone:webapp-runner:9.0.52.1'
+    implementation 'com.github.jsimone:webapp-runner:9.0.27.1'
 }
 
 task stage(dependsOn: ['build', 'clean'])
