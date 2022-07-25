@@ -4,23 +4,12 @@ plugins {
 }
 
 group 'com.thx.priv'
-version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-ext {
-    junitVersion = '5.8.1'
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     implementation 'com.h2database:h2:2.1.212'
     implementation 'com.google.zxing:core:3.4.0'
     implementation 'com.google.zxing:javase:3.4.0'

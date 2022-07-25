@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-@WebFilter(filterName = "MainFilter", value = "/*")
+// @WebFilter(filterName = "MainFilter", value = "/*")
 public class MainFilter implements Filter {
 
     private static Connection conn = null;
