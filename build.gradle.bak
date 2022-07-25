@@ -26,13 +26,7 @@ dependencies {
     implementation 'com.google.zxing:javase:3.4.0'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'javax.servlet:javax.servlet-api:3.1.0'
-}
-
-test {
-}
-
-dependencies {
-  compile 'com.github.jsimone:webapp-runner:8.5.11.3'
+    compile 'com.github.jsimone:webapp-runner:8.5.11.3'
 }
 
 task stage() {
@@ -48,3 +42,18 @@ task copyToLib(type: Copy) {
 }
 
 stage.dependsOn(copyToLib)
+
+
+task getDeps(type: Copy) {
+    from sourceSets.main.runtimeClasspath
+    into 'runtime/'
+
+    doFirst {
+        ant.delete(dir: 'runtime')
+        ant.mkdir(dir: 'runtime')
+    }
+
+    doLast {
+        ant.delete(dir: 'runtime')
+    }
+}
