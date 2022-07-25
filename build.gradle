@@ -26,12 +26,11 @@ dependencies {
     implementation 'com.google.zxing:javase:3.4.0'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'com.github.jsimone:webapp-runner:8.5.11.3'
 }
 
-task stage() {
-    dependsOn clean, war
-}
-war.mustRunAfter clean
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
 
 task copyToLib(type: Copy) {
     into "$buildDir/server"
