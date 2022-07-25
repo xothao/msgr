@@ -33,7 +33,7 @@ public class MainFilter implements Filter {
 
             stmt = conn.createStatement();
             // read all current msgs
-            var messages = new ArrayList<Message>();
+            ArrayList<Message> messages = new ArrayList<Message>();
 
             ResultSet rs = stmt.executeQuery("SELECT id, message FROM Message");
             while(rs.next()) {

@@ -63,7 +63,7 @@ public class Encrypt {
         SecretKeySpec keySpec = new SecretKeySpec(key.getEncoded(), "AES");
 
         // Create GCMParameterSpec
-        var gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * java.lang.Byte.SIZE, iv);
+        GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * java.lang.Byte.SIZE, iv);
 
         // Initialize Cipher for ENCRYPT_MODE
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, gcmParameterSpec);

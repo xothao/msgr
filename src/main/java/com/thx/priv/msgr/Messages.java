@@ -106,7 +106,7 @@ public class Messages extends HttpServlet {
         try {
             // read all msgs each time to include the newly added one
             Statement stmt = conn.createStatement();
-            var messages = new ArrayList<Message>();
+            ArrayList<Message> messages = new ArrayList<Message>();
 
             String sql = "SELECT id, message FROM Message";
             ResultSet rs = stmt.executeQuery(sql);
