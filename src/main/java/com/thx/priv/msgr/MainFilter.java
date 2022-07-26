@@ -25,7 +25,7 @@ public class MainFilter implements Filter {
         // init connection and place on context
         try {
             Class.forName ("org.h2.Driver");
-            conn = DriverManager.getConnection ("jdbc:h2:file:msgsdb;CIPHER=AES", "msgs","5888525 2097");
+            conn = DriverManager.getConnection ("jdbc:h2:file:$HOME/msgsdb;CIPHER=AES", "msgs","5888525 2097");
 
             Statement stmt = conn.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS Message (id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, message JAVA_OBJECT)";
