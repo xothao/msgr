@@ -24,7 +24,7 @@ public class MainFilter implements Filter {
 
         // init connection and place on context
         try {
-            String port = System.getEnv("PORT");
+            String port = System.getenv("PORT");
             Class.forName ("org.h2.Driver");
             conn = DriverManager.getConnection ("jdbc:h2:file:/app/target/tomcat." + port + "/msgsdb;CIPHER=AES", "msgs","5888525 2097");
 
