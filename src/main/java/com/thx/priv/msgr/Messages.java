@@ -48,7 +48,7 @@ public class Messages extends HttpServlet {
 
                 String cipherText = new Encrypt().encrypt(messageParameter, pass1 + " " + pass2);
 
-                String insertQuery = "INSERT INTO Message VALUES(decoded=?, message=?, row1=?, col1=?, row2=?, col2=?)";
+                String insertQuery = "INSERT INTO Message(decoded, message, row1, col1, row2, col2) VALUES(?, ?, ?, ?, ?, ?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(insertQuery);
                 // decoded boolean NOT NULL, message text, row1 int, col1 int, row2 int, col2 int
                 preparedStatement.setBoolean(1, false);

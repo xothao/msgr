@@ -39,7 +39,7 @@ public class MainFilter implements Filter {
         
             Statement stmt = conn.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS Message " + 
-                "(id int PRIMARY KEY, decoded boolean NOT NULL, message text, row1 int, col1 int, row2 int, col2 int)";
+                "(id int PRIMARY KEY, decoded boolean, message text, row1 int, col1 int, row2 int, col2 int)";
             stmt.executeUpdate(sql);
 
             stmt = conn.createStatement();
