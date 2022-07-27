@@ -93,7 +93,7 @@ public class Messages extends HttpServlet {
                     PreparedStatement preparedStatement = conn.prepareStatement(updateQuery);
                     preparedStatement.setString(1, decryptedText);
                     preparedStatement.execute();
-                    conn.commit();
+                    // conn.commit();  // not needed by postgres
                     preparedStatement.close();
                 }
 
