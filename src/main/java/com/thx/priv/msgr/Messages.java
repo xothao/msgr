@@ -120,7 +120,7 @@ public class Messages extends HttpServlet {
 
             ArrayList<Message> messages = new ArrayList<Message>();
 
-            ResultSet rs = stmt.executeQuery("SELECT id, decoded, message, coord FROM Message");
+            ResultSet rs = stmt.executeQuery("SELECT id, decoded, message, row1, col1, row2, col2 FROM Message");
             while(rs.next()) {
                 int[] coord = { rs.getInt("row1"), rs.getInt("col1"), rs.getInt("row2"), rs.getInt("col2") };
                 Message msg = new Message(
