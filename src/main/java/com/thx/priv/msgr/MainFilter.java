@@ -46,7 +46,7 @@ public class MainFilter implements Filter {
             // read all current msgs
             ArrayList<Message> messages = new ArrayList<Message>();
 
-            ResultSet rs = stmt.executeQuery("SELECT id, decoded, text, coord FROM Message");
+            ResultSet rs = stmt.executeQuery("SELECT id, decoded, message, coord FROM Message");
             while(rs.next()) {
                 int[] coord = { rs.getInt("row1"), rs.getInt("col1"), rs.getInt("row2"), rs.getInt("col2") };
                 Message msg = new Message(
