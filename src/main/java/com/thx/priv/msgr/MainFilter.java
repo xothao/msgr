@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.net.*;
 
 @WebFilter(filterName = "MainFilter", value = "/*")
 public class MainFilter implements Filter {
@@ -24,22 +25,36 @@ public class MainFilter implements Filter {
 
         // init connection and place on context
         try {
-            String port = System.getenv("PORT");
-            Class.forName ("org.h2.Driver");
-            conn = DriverManager.getConnection ("jdbc:h2:file:/app/target/tomcat." + port + "/msgsdb;CIPHER=AES", "msgs","5888525 2097");
+            // Class.forName ("org.h2.Driver");
+            // conn = DriverManager.getConnection ("jdbc:h2:file:~msgsdb;CIPHER=AES", "msgs","filepwd userpwd");
+            
+            Class.forName ("org.postgresql.Driver");
+            URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+            conn = DriverManager.getConnection(dbUrl, username, password);
+        
             Statement stmt = conn.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS Message (id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, message JAVA_OBJECT)";
+            String sql = "CREATE TABLE IF NOT EXISTS Message " + 
+                "(id int PRIMARY KEY, decoded boolean NOT NULL, message text, row1 int, col1 int, row2 int, col2 int)";
             stmt.executeUpdate(sql);
 
             stmt = conn.createStatement();
             // read all current msgs
             ArrayList<Message> messages = new ArrayList<Message>();
 
-            ResultSet rs = stmt.executeQuery("SELECT id, message FROM Message");
+            ResultSet rs = stmt.executeQuery("SELECT id, decoded, text, coord FROM Message");
             while(rs.next()) {
-                Message msg = (Message) rs.getObject("message");
-                msg.setId(rs.getInt("id"));
+                int[] coord = { rs.getInt("row1"), rs.getInt("col1"), rs.getInt("row2"), rs.getInt("col2") };
+                Message msg = new Message(
+                    rs.getInt("id"), 
+                    rs.getBoolean("decoded"), 
+                    rs.getString("message"), 
+                    coord
+                );
                 messages.add(msg);
             }
 
@@ -50,6 +65,8 @@ public class MainFilter implements Filter {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }

@@ -48,9 +48,15 @@ public class Messages extends HttpServlet {
 
                 String cipherText = new Encrypt().encrypt(messageParameter, pass1 + " " + pass2);
 
-                String insertQuery = "INSERT INTO Message(message) VALUES(?)";
+                String insertQuery = "INSERT INTO Message VALUES(decoded=?, message=?, row1=?, col1=?, row2=?, col2=?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(insertQuery);
-                preparedStatement.setObject(1, new Message(cipherText, coordinates));
+                // decoded boolean NOT NULL, message text, row1 int, col1 int, row2 int, col2 int
+                preparedStatement.setBoolean(1, false);
+                preparedStatement.setString(2, cipherText);
+                preparedStatement.setInt(3, coordinates[0]);
+                preparedStatement.setInt(4, coordinates[1]);
+                preparedStatement.setInt(5, coordinates[2]);
+                preparedStatement.setInt(6, coordinates[3]);
                 preparedStatement.execute();
                 conn.commit();
 
@@ -67,20 +73,25 @@ public class Messages extends HttpServlet {
         ) {
             try {
                 Statement stmt = conn.createStatement();
-                String sql = "SELECT id, message FROM Message WHERE id = " + messageId;
+                String sql = "SELECT id, decoded, message, row1, col1, row2, col2 FROM Message WHERE id = " + messageId;
                 ResultSet rs = stmt.executeQuery(sql);
                 rs.next();
-                Message msg = (Message) rs.getObject("message");
-                msg.setId(rs.getInt("id"));
+                int[] coord = { rs.getInt("row1"), rs.getInt("col1"), rs.getInt("row2"), rs.getInt("col2") };
+                Message msg = new Message(
+                    rs.getInt("id"), 
+                    rs.getBoolean("decoded"), 
+                    rs.getString("message"), 
+                    coord
+                );
 
                 String decryptedText = new Encrypt().decrypt(msg.getCipherText(), passwordParameter);
                 if(decryptedText != null && !decryptedText.isEmpty()) {
                     msg.setCipherText(decryptedText);
                     msg.setDecoded(true);
 
-                    String updateQuery = "UPDATE Message SET message = ? WHERE id = " + messageId;
+                    String updateQuery = "UPDATE Message SET decoded = true, message = ? WHERE id = " + messageId;
                     PreparedStatement preparedStatement = conn.prepareStatement(updateQuery);
-                    preparedStatement.setObject(1, msg);
+                    preparedStatement.setString(1, decryptedText);
                     preparedStatement.execute();
                     conn.commit();
                     preparedStatement.close();
@@ -106,13 +117,18 @@ public class Messages extends HttpServlet {
         try {
             // read all msgs each time to include the newly added one
             Statement stmt = conn.createStatement();
+
             ArrayList<Message> messages = new ArrayList<Message>();
 
-            String sql = "SELECT id, message FROM Message";
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery("SELECT id, decoded, text, coord FROM Message");
             while(rs.next()) {
-                Message msg = (Message) rs.getObject("message");
-                msg.setId(rs.getInt("id"));
+                int[] coord = { rs.getInt("row1"), rs.getInt("col1"), rs.getInt("row2"), rs.getInt("col2") };
+                Message msg = new Message(
+                    rs.getInt("id"), 
+                    rs.getBoolean("decoded"), 
+                    rs.getString("message"), 
+                    coord
+                );
                 messages.add(msg);
             }
 
