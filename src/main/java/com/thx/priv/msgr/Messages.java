@@ -58,7 +58,7 @@ public class Messages extends HttpServlet {
                 preparedStatement.setInt(5, coordinates[2]);
                 preparedStatement.setInt(6, coordinates[3]);
                 preparedStatement.execute();
-                conn.commit();
+                // conn.commit(); // not needed by postgres
 
                 stmt.close();
             } catch (Exception e) {
